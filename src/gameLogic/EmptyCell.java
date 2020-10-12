@@ -1,7 +1,13 @@
 package gameLogic;
 
 public class EmptyCell extends Cell {
-    final String message = "Just relax here";
+
+    private final String message = "Just relax here";
+
+    @Override
+    public void cellAction(Player player) {
+        System.out.println(message);
+    }
 
     @Override
     public String toString() {

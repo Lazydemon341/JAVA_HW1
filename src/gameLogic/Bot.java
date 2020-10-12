@@ -1,4 +1,9 @@
 package gameLogic;
 
-public class Bot {
+public class Bot extends Player{
+
+    public Bot(int width, int height) {
+        super(width, height);
+    }
+    // TODO.
 }

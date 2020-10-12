@@ -1,4 +1,4 @@
-package com.company;
+package com.gameProcess;
 
 import gameLogic.Map;
 
@@ -6,10 +6,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Map map;
-
-        map = new Map(8, 7);
+        Map map = new Map(17,10);
 
         System.out.println(map);
+
     }
 }

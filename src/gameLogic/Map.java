@@ -1,19 +1,20 @@
 package gameLogic;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
 public class Map {
-    
-    final int width;
-    final int height;
-    Cell[][] cells = new Cell[4][];
 
-    public Map(int width, int height){
+    private final int width;
+    private final int height;
+
+    // TODO: 1D array.
+    private final Cell[][] cells = new Cell[4][];
+
+    public Map(int width, int height) {
         // Проверка на корректность
-        if (width < 6 || width > 30 || height < 6 || height > 30){
+        if (width < 6 || width > 30 || height < 6 || height > 30) {
             throw new IllegalArgumentException("Height and width should be in [6; 30] range!");
         }
         this.width = width;
@@ -24,40 +25,40 @@ public class Map {
 
     @Override
     public String toString() {
-        String res = "";
+        StringBuilder res = new StringBuilder();
 
         // Верхняя горизонтальная линия.
         for (int i = 0; i < cells[0].length; i++) {
-            res += cells[0][i].toString() + " ";
+            res.append(cells[0][i].toString()).append(" ");
         }
-        res += cells[1][0] + "\n";
+        res.append(cells[1][0]).append("\n");
 
         // Вертикальные линии.
         for (int i = 1; i < cells[1].length; i++) {
-            // Конец левой вертикальной линии - сверху.
-            res += cells[3][cells[3].length - i];
+            res.append(cells[3][cells[3].length - i]);
 
             // Внутренняя (пустая) часть карты.
-            for (int j = 0; j < cells[0].length - 1; j++)
-                res += "  ";
+            res.append(" ".repeat(Math.max(0, 2 * cells[0].length - 1)));
 
-            res += " " + cells[1][i] + "\n";
+            res.append(cells[1][i]).append("\n");
         }
 
         // Нижняя горизонтальная линия.
-        res += cells[3][0] + " ";
+        res.append(cells[3][0]).append(" ");
 
         for (int i = 0; i < cells[0].length; i++) {
-            res += cells[0][cells[0].length - i - 1].toString() + " ";
+            res.append(cells[0][cells[0].length - i - 1].toString()).append(" ");
         }
 
-        return res;
+        return res.toString();
     }
 
-    void generateMap(){
+    /**
+     * Заполняет карту клетками.
+     */
+    void generateMap() {
         Random rnd = new Random();
 
-        // Один банк на всю карту.
         Bank bank = new Bank();
 
         // Заполняем отдельно каждую линию карты.
@@ -69,8 +70,8 @@ public class Map {
             // Первая клетка - пустая.
             cells[i][0] = new EmptyCell();
 
-            // Список из возможных индексов для клеток на карте.
-            ArrayList<Integer> positions = new ArrayList<Integer>();
+            // Список из возможных индексов для клеток на линии.
+            ArrayList<Integer> positions = new ArrayList<>();
             for (int j = 1; j < size; j++) {
                 positions.add(j);
             }
@@ -81,20 +82,27 @@ public class Map {
             int cnt = 0;
             cells[i][positions.get(cnt++)] = bank;
 
-            // До 2 клеток-такси.
-            int taxiCount = rnd.nextInt(3);
-            for (int j = 0; j < taxiCount; j++) {
-                cells[i][positions.get(cnt++)] = new Taxi();
-            }
-
             // До 2 штрафных клеток.
             int penaltyCellsCount = rnd.nextInt(3);
             for (int j = 0; j < penaltyCellsCount; j++) {
                 cells[i][positions.get(cnt++)] = new PenaltyCell();
             }
 
+            // До 2 клеток-такси.
+            int taxiCount = rnd.nextInt(3);
+            for (int j = 0; j < taxiCount; j++) {
+                cells[i][positions.get(cnt++)] = new Taxi();
+
+                /* На линии длины 6 не могут поместиться одновременно
+                2 клетки-такси и 2 штрафные клетки. В slack-чате было указано
+                предпочтение в таком случае отдавать штрафным клеткам.
+                 */
+                if (cnt == positions.size())
+                    break;
+            }
+
             // Оставшиеся клетки - магазины.
-            while(cnt < positions.size()){
+            while (cnt < positions.size()) {
                 cells[i][positions.get(cnt++)] = new Shop();
             }
         }
