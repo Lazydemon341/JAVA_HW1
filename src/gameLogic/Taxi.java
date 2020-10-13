@@ -12,6 +12,6 @@ public class Taxi extends Cell {
 
     @Override
     public void cellAction(Player player) {
-        taxiDistance = ThreadLocalRandom.current().nextInt(3, 5);
+        taxiDistance = ThreadLocalRandom.current().nextInt(3, 6);
     }
 }

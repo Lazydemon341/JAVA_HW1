@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public abstract class Cell {
 
-    public abstract void cellAction(Player player);
+    abstract void cellAction(Player player);
 
     /**
      * Генерирует случайное дробное число

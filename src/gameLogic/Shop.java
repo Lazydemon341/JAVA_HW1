@@ -2,15 +2,15 @@ package gameLogic;
 
 public class Shop extends Cell {
 
-    int N; // Цена магазина.
-    int K; // Размер компенсации.
+    private int N; // Цена магазина.
+    private int K; // Размер компенсации.
 
-    final double compensationCoeff;
-    final double improvementCoeff;
+    private final double compensationCoeff;
+    private final double improvementCoeff;
 
-    Player owner; // Владелец магзина.
+    private Player owner; // Владелец магзина.
 
-    public Shop(){
+    Shop(){
         N = getIntFromRange(50, 500);
         K = getIntFromRange((int)Math.round(0.5*N), (int)Math.round(0.9*N) + 1);
         compensationCoeff = getDoubleFromRange(0.1, 1);
@@ -21,20 +21,20 @@ public class Shop extends Cell {
      * Покупка магазина.
      * @param buyer Игрок, покупающий магазин.
      */
-    public void buy(String buyer){
+    void buy(String buyer){
         // TODO.
     }
 
     /**
      * Улучшение магазина.
      */
-    public void upgrade(){
+    void upgrade(){
         N += improvementCoeff * N;
         K += compensationCoeff * K;
     }
 
     @Override
-    public void cellAction(Player player) {
+    void cellAction(Player player) {
         // TODO.
     }
 

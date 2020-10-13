@@ -1,14 +1,18 @@
 package gameLogic;
 
 public class PenaltyCell extends Cell {
-    final double penaltyCoeff;
+    private final double penaltyCoeff;
 
-    public PenaltyCell() {
+    PenaltyCell() {
         penaltyCoeff = getDoubleFromRange(0.01, 0.1);
     }
 
+    void displayCoeff(){
+        System.out.println("penaltyCoeff = " + penaltyCoeff);
+    }
+
     @Override
-    public void cellAction(Player player) {
+    void cellAction(Player player) {
         player.sum -= penaltyCoeff * player.sum;
     }
 

@@ -60,6 +60,7 @@ public class Map {
         Random rnd = new Random();
 
         Bank bank = new Bank();
+        PenaltyCell penaltyCell = new PenaltyCell();
 
         // Заполняем отдельно каждую линию карты.
         for (int i = 0; i < cells.length; i++) {
@@ -85,7 +86,7 @@ public class Map {
             // До 2 штрафных клеток.
             int penaltyCellsCount = rnd.nextInt(3);
             for (int j = 0; j < penaltyCellsCount; j++) {
-                cells[i][positions.get(cnt++)] = new PenaltyCell();
+                cells[i][positions.get(cnt++)] = penaltyCell;
             }
 
             // До 2 клеток-такси.
